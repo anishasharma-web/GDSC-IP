@@ -1,0 +1,80 @@
+//using stack
+int largestRectangleArea(vector<int>& h) {
+        stack<int> st;
+        stack<int> st;
+        int mx=0,n=h.size();
+        for(int i=0;i<=n;i++){
+            while(!st.empty() && (i==n || h[st.top()]>=h[i])){
+                int ht=h[st.top()];
+                st.pop();
+                int wd=st.empty()?i:(i-st.top()-1);
+                int ar=ht*wd;
+                if(ar>mx)mx=ar;                
+            }
+            st.push(i);
+        }
+        return mx;
+    }
+  //using  Nearest Smallest to Left && Nearest Smallest to Right  
+  int largestRectangleArea(vector<int>& heights) {  
+        int size = heights.size();
+        vector<int> v1;
+        vector<int> v2;
+        stack<pair<int,int>> NSL;
+        stack<pair<int,int>> NSR;
+        for (int i = 0; i < size; i++) {
+            if (NSL.empty()) {
+                v1.push_back(-1);
+            } else if (!NSL.empty() && NSL.top().first >= heights[i]) {
+                while(!NSL.empty() && NSL.top().first >= heights[i]) {
+                    NSL.pop();
+                }
+                if (NSL.empty()) {
+                    v1.push_back(-1);
+                } else {
+                    v1.push_back(abs(i-NSL.top().second));
+                }
+            } else {
+                v1.push_back(abs(i-NSL.top().second));
+            }
+            NSL.push({heights[i], i});
+        }
+        for (int i = size-1; i >= 0; i--) {
+            if (NSR.empty()) {
+                v2.push_back(-1);
+            } else if (!NSR.empty() && NSR.top().first >= heights[i]) {
+                while(!NSR.empty() && NSR.top().first >= heights[i]) {
+                    NSR.pop();
+                }
+                if (NSR.empty()) {
+                    v2.push_back(-1);
+                } else {
+                    v2.push_back(abs(i-NSR.top().second));
+                }
+            } else {
+                v2.push_back(abs(i-NSR.top().second));
+            }
+            NSR.push({heights[i], i});
+        }
+        
+        reverse(v2.begin(), v2.end());
+        
+        for (int i = 0; i < size; i++) {
+            int area = 0;
+            if (v1[i] != -1) {
+                area += heights[i] * (v1[i]-1);
+            } else {
+                area += heights[i] * (i);
+            }
+            if (v2[i] != -1) {
+                area += heights[i] * (v2[i]-1);
+            } else {
+                area += heights[i] * (size-1-i);
+            }
+            area += heights[i];
+            if (area > result) {
+                result = area;
+            }
+        }
+        return result;
+    }

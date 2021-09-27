@@ -1,0 +1,38 @@
+int longestValidParentheses(string s) {
+        stack<int>stk;
+        stk.push(-1);
+        int large=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='(')
+                stk.push(i);
+            if(s[i]==')')
+            {
+                if(!stk.empty())
+                    stk.pop();
+                if(!stk.empty())
+                {
+                    large=max(large,i-stk.top());
+                   // stk.pop();
+                }
+                else
+                    stk.push(i);
+            }
+        }
+        return large;
+    }
+
+//Approach 2
+int longestValidParentheses(string s, int res = 0) {
+	for (int i = 0, n = 0; i < s.size(); ++i)
+		if (s[i] == '(') ++n;
+		else if (!n--) s[i] = '*', n = 0;
+	for (int i = s.size() - 1, n = 0; i >= 0; --i) 
+		if (s[i] == ')') ++n;
+		else if (s[i] == '*') n = 0;
+		else if (!n--) s[i] = '*', n = 0;
+	for (int i = 0, cur = 0; i < s.size(); ++i)
+		if (s[i] != '*') res = max(res, ++cur);
+		else cur = 0;
+	return res;
+}

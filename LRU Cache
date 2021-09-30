@@ -1,0 +1,77 @@
+class LRUCache {
+public:
+    class node{
+        public:
+        int key;
+        int value;
+        node *next,*prev;
+        node(int k,int v)
+        {
+            key=k;
+            value=v;
+            prev=next=NULL;
+        }
+    };
+    unordered_map<int,node*> m;
+    int cap;
+    node *head=new node(-1,-1);
+    node *tail=new node(-1,-1);
+    LRUCache(int capacity) {
+        cap=capacity;
+        head->next=tail;
+        tail->prev=head;
+    }
+    void deletenode(node *temp)
+    {
+     
+      temp->prev->next=temp->next;  
+      temp->next->prev=temp->prev;
+      delete temp;  
+     }
+    
+    void addnode(int key,int value)
+    {
+        node *temp=new node(key,value);
+         temp->next=head->next;
+         temp->next->prev=temp;
+         temp->prev=head;
+         head->next=temp;
+         m[key]=temp;
+    }
+    
+    int get(int key) {
+        if(m.find(key)!=m.end())
+        {
+          node *temp=m[key];
+          int value=temp->value;
+          m.erase(key);
+          deletenode(temp); 
+          addnode(key,value);  
+          m[key]=head->next;  
+           
+          return value;  
+        }
+        return -1;
+    }
+    
+    void put(int key, int value) {
+      
+        if(m.find(key)!=m.end())
+        {
+          deletenode(m[key]);  
+          addnode(key,value);
+            
+        }
+        else if(m.size()==cap)
+        {
+            m.erase(tail->prev->key);
+            deletenode(tail->prev);
+            addnode(key,value);
+        
+        }
+        else{
+            
+            addnode(key,value);
+        }
+    }
+};

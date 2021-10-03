@@ -1,0 +1,12 @@
+ListNode* temp;
+    bool isPalindrome(ListNode* head) {
+        temp = head;
+        return check(head);
+    }
+    
+    bool check(ListNode* p) {
+        if (NULL == p) return true;
+        bool isPall = check(p->next) & (temp->val == p->val);
+        temp = temp->next;
+        return isPall;
+    }

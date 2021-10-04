@@ -1,0 +1,21 @@
+Input: head = [1,2,3,4,5], k = 2
+Output: [4,5,1,2,3]
+
+ListNode* rotateRight(ListNode* head, int k) {
+     ListNode* temp =head;
+        int c=1,i=1;
+        if(!head) return head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+            c++;
+        }
+        temp->next=head;
+        k=k%c;
+        while(i<=c-k ){
+            temp=temp->next;
+            i++;
+        }
+        head=temp->next;
+        temp->next=NULL;
+        return head;
+    }

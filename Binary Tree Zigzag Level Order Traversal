@@ -1,0 +1,58 @@
+class Solution {
+public:
+  	vector<vector<int>> zigzagLevelOrder(TreeNode* root)
+	{
+		vector<vector<int>> result;
+
+		if (root)
+		{
+			std::queue<TreeNode*> p;
+
+			p.push(root);
+			bool left_to_right = true;
+
+			while (!p.empty())
+			{
+				size_t size = p.size();
+				vector<int> level(size, 0);
+
+				int pos = 0;
+				if (!left_to_right)
+				{
+					pos = size - 1;
+				}
+
+				while (pos >= 0 && pos < size)
+				{
+
+					TreeNode* node = p.front();
+					p.pop();
+					level[pos] = node->val;
+
+					if (node->left)
+					{
+						p.push(node->left);
+					}
+
+					if (node->right)
+					{
+						p.push(node->right);
+					}
+
+					if (left_to_right)
+					{
+						pos++;
+					}
+					else
+					{
+						pos--;
+					}
+				}
+				left_to_right = !left_to_right;
+				result.push_back(level);
+			}
+		}
+
+		return result;
+	}
+};

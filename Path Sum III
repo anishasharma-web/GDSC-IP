@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int pathSum(TreeNode* root, int target) {
+
+  if(!root)
+    return 0;
+  
+  return find(root,0,target) + pathSum(root->left,target) + pathSum(root->right,target);
+}
+
+int find(TreeNode* root,int sum,int& target){
+
+     if(!root)
+      return 0;
+
+  sum+=root->val;
+
+if(sum==target)
+     return 1+ find(root->left,sum,target) + find(root->right,sum,target);
+else
+     return find(root->left,sum,target) + find(root->right,sum,target);
+    
+}  
+};

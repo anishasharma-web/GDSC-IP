@@ -1,0 +1,22 @@
+class Solution {
+    void kSmallest(TreeNode* root, int& k, int *data)
+    {
+        if(root == NULL)
+            return;
+        kSmallest(root->left,k, data);
+            k--;
+        if(k == 0)
+        {
+            *data = root->val;
+        }
+        kSmallest(root->right,k,data);
+    }
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        if(root == NULL)
+            return 0;
+        int p;
+        kSmallest(root, k, &p);
+        return p;
+    }
+};

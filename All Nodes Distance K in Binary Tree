@@ -1,0 +1,54 @@
+void preorder(TreeNode *root, TreeNode *parent, unordered_map<TreeNode*, TreeNode*> &mp)
+{
+	if(!root)
+		return;
+
+	mp[root] = parent;
+
+	preorder(root->left, root, mp);
+	preorder(root->right, root, mp);
+}
+
+vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+	unordered_map<TreeNode*, TreeNode*> mp;
+
+	unordered_map<TreeNode*, bool> visited;
+
+	vector<int> vect;
+
+	preorder(root, NULL, mp);
+
+	int steps;
+
+	queue<pair<TreeNode*, int>> mq; // node, steps
+	mq.push({ target, 0 });
+
+	while(!mq.empty())
+	{
+		auto p = mq.front();
+		mq.pop();
+
+		TreeNode *temp = p.first;
+
+		steps = p.second;
+
+		visited[temp] = true;
+
+		if(steps == k)
+		{
+			vect.push_back(temp->val);
+			continue;
+		}
+
+		if(temp->left and !visited[temp->left])
+			mq.push({ temp->left, steps + 1 });
+
+		if(temp->right and !visited[temp->right])
+			mq.push({ temp->right, steps + 1 });
+
+		if(mp[temp] and !visited[mp[temp]])
+			mq.push({ mp[temp], steps + 1 });
+	}
+
+	return vect;
+}

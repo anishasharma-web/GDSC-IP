@@ -1,0 +1,23 @@
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+      TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+		//Base Case
+        if(!root) return NULL;
+        if(root->val == p->val || root->val == q->val) return root;
+		
+		//Hypothesis
+        TreeNode* l = lowestCommonAncestor(root->left, p, q);
+        TreeNode* r = lowestCommonAncestor(root->right, p, q);
+        
+		//Induction
+        if(!l && !r) return NULL;
+        if(l && r) return root;
+        if(!l) return r;
+        if(!r) return l;
+        
+        //Code never runs here:
+        return NULL;
+    }  
+    }
+};

@@ -1,0 +1,13 @@
+   int combinationSum4(vector<int>& nums, int target) {
+        vector<unsigned int> dp(target+1,0);
+        dp[0] = 1;                                                                           // to form sum 0, i.e., using no coin
+		
+        for(int i = 1; i <= target; i++) {
+            for(int c : nums) {                                                               // traverse in the nums 
+                if(c <= i) {                                                // if a coin is less than or equal to the i'th target, we can use add all the ways of (i-c) th target
+                    dp[i] += dp[i - c];
+                }
+            }
+        }
+        return dp[target];
+    }

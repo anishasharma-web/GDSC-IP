@@ -1,0 +1,47 @@
+ int MaxSum(int arr[], int n) 
+    { 
+    int max = INT_MIN; 
+  
+    // MSB[i]-: Maximum sum Increasing Bi-tonic 
+    // subsequence ending with arr[i] 
+    // MSD[i]-: Maximum sum Decreasing Bi-tonic 
+    // subsequence starting with arr[i] 
+    int MSB[n], MSD[n]; 
+    for (int i = 0; i < n; i++)
+    { 
+        MSB[i] = arr[i]; 
+        MSD[i] = arr[i]; 
+    } 
+  
+    // Compute MSB values from left to right  
+    for (int i = 1; i < n; i++)
+    {
+        for (int j = 0; j < i; j++) 
+        {       
+                
+                if (arr[i] > arr[j] && MSB[i] < MSB[j] + arr[i]) 
+           
+                MSB[i] = MSB[j] + arr[i];
+         }
+      }     
+  
+    // Compute MSD values from right to left 
+    for (int i = n - 2; i >= 0; i--) 
+    {
+        for (int j = n - 1; j > i; j--)
+        {
+            if (arr[i] > arr[j] && MSD[i] < MSD[j] + arr[i]) 
+            MSD[i] = MSD[j] + arr[i];
+        }
+     }
+  
+    // Find the maximum value of MSB[i] + MSD[i] - arr[i] 
+    for (int i = 0; i < n; i++)
+    {
+        max = max(max, (MSD[i] + MSB[i] - arr[i]));
+    }   
+  
+    // return max sum of bi-tonic sub-sequence 
+    return max; 
+    } 
+  

@@ -1,0 +1,24 @@
+int findNumberOfLIS(vector<int>& nums) {
+    vector<int> len(nums.size(),1),times(nums.size(),1);
+    int maxlen=0;
+    for(int i=1;i<nums.size();++i){
+        for(int j=0;j<i;++j){
+            if(nums[j] < nums[i]){
+                if(len[j]+1 > len[i]){
+                    len[i]=len[j]+1;
+                    times[i] = times[j];
+                }
+                else if(len[j]+1 ==len[i])
+                    times[i]+=times[j];
+            }
+            maxlen=max(maxlen,len[i]);
+        }
+    }
+   int count=0;
+    for(int i=0;i<nums.size();++i){
+        if(len[i] == maxlen)
+            count+=times[i];
+    }
+    if(count==0) return 1;
+    return count;
+}

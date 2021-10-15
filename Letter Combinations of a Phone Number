@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> ans;
+        if(digits.size() == 0) return ans;
+        
+        unordered_map<char, string> mappings;
+        mappings['2'] = "abc";
+        mappings['3'] = "def";
+        mappings['4'] = "ghi";
+        mappings['5'] = "jkl";
+        mappings['6'] = "mno";
+        mappings['7'] = "pqrs";
+        mappings['8'] = "tuv";
+        mappings['9'] = "wxyz";
+        //5 thigs
+        string str = "";
+        backtrack(digits, 0, str, mappings, ans);
+        return ans;
+    }
+    
+    void backtrack(string digits, int index, string& str, unordered_map<char, string> mappings, vector<string>& ans) {
+        if(index == digits.length()) {
+            ans.push_back(str);
+            return;
+        }
+        
+        string mapping = mappings[digits[index]];
+        for(int k = 0; k < mapping.size(); k++) {
+            str += mapping[k];
+            backtrack(digits, index+1, str, mappings, ans);
+            str.erase(str.begin() + str.size() - 1);
+        }
+    }    
+
+};
